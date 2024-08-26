@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Book Detector</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+
+    <link rel="stylesheet" href="hamster.css" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link rel="icon" href="./book_drag_and_drop.png" type="image/x-icon" />
+  </head>
+  <body>
+    <div class="App">
+      <div class="dim-background"></div>
+      <nav>
+        <menu class="menu">
+          <!-- <li>
+            <a class="menu-category" href="/">Home</a>
+          </li> -->
+          <li>
+            <a class="menu-category" href="/about">About</a>
+          </li>
+          <li>
+            <a href="/contact">Contact</a>
+          </li>
+          <li>
+            <a href="/sign-up">Sign up</a>
+          </li>
+          <li id="login-button">
+            <a href="/login">Login</a>
+          </li>
+        </menu>
+      </nav>
+
+      <div class="center-container">
+        <h1 class="main-header">
+          Welcome to book lotter! 
+        <h3>
+          A cutting edge tool for professional book resalers to create listings
+          with a single photo
+        </h3>
+        <div
+          class="drop-area"
+          ondrop="handleDrop(event)"
+          ondragover="handleDragOver(event)"
+          id="drop-area-javascript"
+        >
+          <!-- <img src="./arrow-png-dragAndDropp .jpeg" alt="" class="arrow-png" id="top-left">
+        <img src="./arrow-png-dragAndDropp-top-right.png" alt="" class="arrow-png" id="top-right">
+        <img src="./arrow-png-dragAndDropp-bottm-left.png" alt="" class="arrow-png" id="bottom-left">
+        <img src="./3rd-arrow-bottom-right.png" alt="" class="arrow-png" id="bottom-right"> -->
+
+          <h4 id="drag-and-drop-text">Drag and drop a photo of books here</h4>
+          <img src="./assets/book_drag_and_drop.png" alt="" class="drop-png" />
+          <!-- <div class="animation-container"> -->
+
+          <!-- <div class="cloud">
+                <div class="anim-block">
+                  <div class="arrow-container  cloud-play"><i class="icono-arrow1-up"></i></div>
+                </div>
+              </div> -->
+          <!-- <div class="arrow"></div> -->
+          <div class="image-preview" id="imagePreview">
+            <img id="droppedImage" />
+            <p id="imageMessage"></p>
+          </div>
+        </div>
+      
+
+      <div class="upload-container">
+        <label class="upload-button" for="file-upload">
+          Or click here to upload
+        </label>
+      </div>
+      <input id="file-upload" type="file" multiple onchange="handleFileSelect(event)" />
+      <div id="display-dropped-photos"></div>
+      <div id="result-container"></div>
+    </div>
+
+    <div
+      aria-label="Orange and tan hamster running in a metal wheel"
+      role="img"
+      class="wheel-and-hamster"
+    >
+      <div class="wheel"></div>
+      <div class="hamster">
+        <div class="hamster__body">
+          <div class="hamster__head">
+            <div class="hamster__ear"></div>
+            <div class="hamster__eye"></div>
+            <div class="hamster__nose"></div>
+          </div>
+          <div class="hamster__limb hamster__limb--fr"></div>
+          <div class="hamster__limb hamster__limb--fl"></div>
+          <div class="hamster__limb hamster__limb--br"></div>
+          <div class="hamster__limb hamster__limb--bl"></div>
+          <div class="hamster__tail"></div>
+        </div>
+      </div>
+      <div class="spoke"></div>
+      <!-- </div><div id="backgroud-container"></div> -->
+      <h2 class="loading-text">
+        <span>L</span><span>O</span><span>A</span><span>D</span><span>I</span
+        ><span>N</span><span>G</span><span>.</span><span>.</span><span>.</span>
+      </h2>
+    </div>
+
+    <div class="footer">
+      <div class="footer-content">
+        <span class="footer-title">SpineSpotter AI © 2022 – 2024</span>
+        <a href="/policies" class="footer-link" aria-label="Terms & Policies"
+          >Design Rationale</a
+        >
+        <a
+          href="/policies/privacy-policy"
+          class="footer-link"
+          aria-label="Privacy Policy"
+          >Privacy Policy</a
+        >
+        <a href="/brand" class="footer-link" aria-label="Brand Guidelines"
+          >Brand Guidelines</a
+        >
+      </div>
+
+      <!-- Social Media Links -->
+      <div class="social-links">
+        <a
+          href="https://www.instagram.com/hendos_photos/"
+          target="_blank"
+          class="social-icon"
+        >
+          <i class="fab fa-instagram"></i>
+        </a>
+        <a
+          href="https://www.linkedin.com/in/paul-henderson-548747141/"
+          target="_blank"
+          class="social-icon"
+        >
+          <i class="fab fa-linkedin"></i>
+        </a>
+        <a
+          href="https://github.com/paulh6819"
+          target="_blank"
+          class="social-icon"
+        >
+          <i class="fab fa-github"></i>
+        </a>
+      </div>
+    </div>
+
+    <div id="potentialBookTitles"></div>
+    <div id="isbnPriceContainer"></div>
+    <button id="downloadButton" class="upload-button">Download CSV</button>
+    <!-- <button id="downloadButton" class="upload-button">Download CSV</button> -->
+
+    <script src="index.js" defer></script>
+  </body>
+</html>
