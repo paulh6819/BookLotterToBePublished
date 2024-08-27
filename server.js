@@ -189,7 +189,7 @@ app.post("/detectLabels", upload.array("images[]"), async (req, res) => {
     );
     console.log("this is the filtered for numbers OCR", filteredForNumbersOCR);
 
-    const chatGPTResponse = await getBooksFromChatGPT(filteredForNumbersOCR);
+    const chatGPTResponse = await getBooksFromChatGPT(textBackFromGoolgesOCR);
 
     // console.log("chatGPT response", chatGPTResponse);
 
@@ -219,7 +219,10 @@ app.post("/detectLabels", upload.array("images[]"), async (req, res) => {
     //this will bring back titles for the isbns
 
     const bookTitleArray = [];
-    if (parsedGPTresponse.length >= 1) {
+
+    // if (Array.isArray(parsedGPTresponse) && )??
+
+    if (parsedGPTresponse.length > 0) {
       let isbn;
       for (let isbnObject of parsedGPTresponse) {
         console.log("entering forloop for isbns");
@@ -255,7 +258,37 @@ app.post("/detectLabels", upload.array("images[]"), async (req, res) => {
         }
       }
     } else {
-      bookTitleArray.push(parsedGPTresponse.isbn13);
+      console.log("entering forloop for isbns");
+      if (parsedGPTresponse.isbn13 || parsedGPTresponse.isbn) {
+        if (parsedGPTresponse.isbn13) {
+          isbn = parsedGPTresponse.isbn13;
+        } else {
+          isbn = parsedGPTresponse.isbn;
+        }
+        console.log(parsedGPTresponse.isbn13);
+        const constructedURL = `${baseURL}/books/v1/volumes?q=isbn:${encodeURIComponent(
+          isbn
+        )}&key=${apiKEYGoogleBooks}`;
+
+        try {
+          const googleBooksResponse = await axios.get(constructedURL);
+
+          console.log(
+            "this should be the title from the chatGPT object not the array ",
+            googleBooksResponse.data?.items?.[0]?.volumeInfo?.title
+          );
+
+          let title = googleBooksResponse.data?.items?.[0]?.volumeInfo?.title;
+          bookTitleArray.push(title);
+        } catch (error) {
+          console.error(
+            "Error fetching from Google Books API with the new object that only has:",
+            error
+          );
+          res.status(500).send("Error fetching book data");
+          return;
+        }
+      }
     }
 
     // for (let bookOBJ of parsedGPTresponse) {
@@ -804,7 +837,7 @@ async function giveTitlesToChatGPTAndGetBackADescriptionAndOrderedTitles(
     messages: [
       {
         role: "user",
-        content: `You are about to be given an arr of titles. I need you to write a marketing descripion of the books for eBay and then list the 
+        content: `You are about to be given an arr of titles containing one or more books. I need you to write a marketing descripion of the books for eBay and then list the 
         the books one perline, numbered in order. MAKE SURE THE DESCRIPTION IS AT THE TOP BEFORE YOU LIST THE BOOKS.And this will be html so have a new line symbol at the end of every book listed, and have the font of the description a little larger If the books are all by one author, mention that, and talk a little bit about the author.   Here are the books: ${arrOfTitles}`,
       },
     ],
