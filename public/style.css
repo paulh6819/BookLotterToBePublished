@@ -119,10 +119,10 @@ menu a:hover {
     gap: 10px;
   }
   .image-dropped-in-url{
-    max-width: 200px;
-    max-height: 200px; 
-    object-fit: contain;
+    object-fit: cover;
     overflow: hidden;
+    height: 100px;
+    width: 100px;
   }
   
   .drop-area {
