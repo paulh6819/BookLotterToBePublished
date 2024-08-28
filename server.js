@@ -838,7 +838,7 @@ async function giveTitlesToChatGPTAndGetBackADescriptionAndOrderedTitles(
       {
         role: "user",
         content: `You are about to be given an arr of titles containing one or more books. I need you to write a marketing descripion of the books for eBay and then list the 
-        the books one perline, numbered in order. MAKE SURE THE DESCRIPTION IS AT THE TOP BEFORE YOU LIST THE BOOKS.And this will be html so have a new line symbol at the end of every book listed, and have the font of the description a little larger If the books are all by one author, mention that, and talk a little bit about the author.   Here are the books: ${arrOfTitles}`,
+        the books one perline, numbered in order. MAKE SURE THE DESCRIPTION IS AT THE TOP BEFORE YOU LIST THE BOOKS. And this will be html so have a new line symbol at the end of every book listed, and have the font of the description a little larger If the books are all by one author, mention that, and talk a little bit about the author. And do not have repeat entries. Here are the books: ${arrOfTitles}`,
       },
     ],
     stream: true,
