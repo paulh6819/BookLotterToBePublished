@@ -123,6 +123,10 @@ menu a:hover {
     overflow: hidden;
     height: 100px;
     width: 100px;
+    opacity: .9;
+    border: dotted 5px black;
+    justify-content: left;
+    margin-top: 30px;
   }
   
   .drop-area {
@@ -143,7 +147,6 @@ menu a:hover {
     margin-top: 60px;
     /* padding-bottom: 40px;  */
     
-    border: dotted 5px black;
 
     /* new code from old drop box */
     box-shadow: 0px 0px 0px rgb(150, 134, 255);
