@@ -74,7 +74,7 @@
 
 #div-for-button-to-fetch-bookdata{
 
-  font-size: smaller;
+  font-size: 18px;
   text-decoration: none;
   color:#292828;
   font-weight: bold;
@@ -88,6 +88,7 @@
   width: 80%;
   background-color: white;
   display: none;
+  margin-top: 10px;
 }
 
 #div-for-button-to-fetch-bookdata:hover {
@@ -147,10 +148,11 @@ menu a:hover {
     overflow: hidden;
     height: 100px;
     width: 100px;
-    opacity: .9;
+    /* opacity: 0; Start with opacity 0 */
     border: dotted 5px black;
     justify-content: left;
     margin-top: 30px;
+    /* transition: opacity 0.5s ease-out; */
   }
   
   .drop-area {
@@ -442,11 +444,26 @@ font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 }
 
+@keyframes bubble2 {
+  0%,50%{
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(2);
+  }
+100%{
+  transform: scale(1);
+}
+}
+
 .loading-text {
   color: white;
   margin-top: 170px;
   animation: fadeIn 1s ease-in-out; /* Apply fade-in to the whole text */
 }
+
+
+
 
 
 
@@ -466,6 +483,23 @@ font-family: Verdana, Geneva, Tahoma, sans-serif;
 .loading-text span:nth-child(8) { animation-delay: 0.7s; }
 .loading-text span:nth-child(9) { animation-delay: 0.8s; }
 .loading-text span:nth-child(10) { animation-delay: 0.9s; }
+
+#bouncing-submission-letters span {
+  display: inline-block;
+  animation: bubble2 4.5s infinite; /* Apply bubble animation to each letter */
+  animation-delay: calc(var(--index) * 0.1s); /* Calculate delay based on index */
+}
+
+#bouncing-submission-letters span:nth-child(1) { --index: 0; }
+#bouncing-submission-letters span:nth-child(2) { --index: 1; }
+#bouncing-submission-letters span:nth-child(3) { --index: 2; }
+#bouncing-submission-letters span:nth-child(4) { --index: 3; }
+#bouncing-submission-letters span:nth-child(5) { --index: 4; }
+#bouncing-submission-letters span:nth-child(6) { --index: 5; }
+#bouncing-submission-letters span:nth-child(7) { --index: 6; }
+#bouncing-submission-letters span:nth-child(8) { --index: 7; }
+#bouncing-submission-letters span:nth-child(9) { --index: 8; }
+#bouncing-submission-letters span:nth-child(10) { --index: 9; }
 
 
 #downloadButton{
@@ -563,6 +597,7 @@ details[open] > summary {
   justify-content: center;
   margin-left: auto;
   margin-right: auto;
+  font-size: 25px;
 }
 
 
