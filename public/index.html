@@ -55,7 +55,7 @@
         <img src="./arrow-png-dragAndDropp-bottm-left.png" alt="" class="arrow-png" id="bottom-left">
         <img src="./3rd-arrow-bottom-right.png" alt="" class="arrow-png" id="bottom-right"> -->
 
-          <h4 id="drag-and-drop-text">Drag and drop a photo of books here</h4>
+          <h4 id="drag-and-drop-text">Drag and drop either a single photo or multipe photos of books here. <br>Make sure the bar code is visible! </br> </h4>
           <img src="./assets/book_drag_and_drop.png" alt="" class="drop-png" />
           <!-- <div class="animation-container"> -->
 
@@ -71,14 +71,18 @@
           </div>
         </div>
       
-
-      <div class="upload-container">
+      <div class="upload-container" id="upload-button-id">
         <label class="upload-button" for="file-upload">
           Or click here to upload
         </label>
       </div>
+
       <input id="file-upload" type="file" multiple onchange="handleFileSelect(event)" />
       <div id="display-dropped-photos"></div>
+      <button id="div-for-button-to-fetch-bookdata"><div id="bouncing-submission-letters"><span>C</span><span>l</span><span>i</span><span>c</span><span>k</span>
+         <!-- This is for the space -->
+        <span>H</span><span>e</span><span>r</span><span>e</span> To Submit Your Photos For Processing</div></button>
+
       <div id="result-container"></div>
     </div>
 
