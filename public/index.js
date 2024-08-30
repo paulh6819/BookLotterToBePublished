@@ -93,7 +93,18 @@ async function handleDrop(event) {
             const resultContainer = document.getElementById("result-container");
 
             if (result) {
-              resultContainer.innerHTML = result;
+              resultContainer.innerHTML = ` <div class="top-part">
+              <button class="copy-button" onclick="copyText()">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-clipboard" viewBox="0 0 16 16">
+                      <path d="M10.5 1a.5.5 0 0 1 .5.5V2h1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h1v-.5a.5.5 0 0 1 .5-.5h5zm0 1h-5a.5.5 0 0 0-.5.5V3h6v-.5a.5.5 0 0 0-.5-.5zM5 4V2H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1V4H5z"/>
+                  </svg>
+              </button>
+          </div>
+          <div class="content-part">
+             ${result}
+          </div>`;
+
+              result;
             } else {
               resultContainer.innerHTML = "No results found";
               console.log("No results found");
