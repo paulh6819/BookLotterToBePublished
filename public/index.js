@@ -5,10 +5,14 @@ let image = {
   message: "Let's see what these books are worth",
 };
 const resultsContainer = document.getElementById("result-container");
+const fetchBookDataButton = document.getElementById(
+  "div-for-button-to-fetch-bookdata"
+);
 // console.log("hey");
 let isbnData;
 let imagesToBeDisplayedInTheUi = "";
 let formData = new FormData();
+let count = 0;
 
 async function handleDrop(event) {
   event.preventDefault();
@@ -35,7 +39,6 @@ async function handleDrop(event) {
   // elementToHide.style.display = "none";
 
   const imageArray = [];
-  let count = 0;
 
   for (let i = 0; i < file.length; i++) {
     if (file[i].type.match(/^image\//)) {
@@ -47,11 +50,13 @@ async function handleDrop(event) {
 
   updateImage(imageArray);
   function updateImage(imageArray) {
+    count++;
+
     for (let image of imageArray) {
       const img = document.createElement("img");
       // const imgDiv = document.getElementsByClassName("image-dropped-in-url");
-      console.log((count += 1));
-      console.log("this is the image count on the cloud", image);
+      // console.log((count += 1));
+      console.log("this is the image count on the cloud", count);
       img.src = URL.createObjectURL(image);
       img.height = 10;
       img.onload = function () {
@@ -79,14 +84,15 @@ async function handleDrop(event) {
 
     document.getElementById("upload-button-id").style.display = "none";
 
-    const fetchBookDataButton = document.getElementById(
-      "div-for-button-to-fetch-bookdata"
-    );
-    fetchBookDataButton.removeEventListener("click", fetchBookData);
-    fetchBookDataButton.addEventListener("click", fetchBookData);
+    //making sure multiple event listeners are not added to the button and that the fetch is not unneccessarily called
+    if (count === 1) {
+      fetchBookDataButton.addEventListener("click", fetchBookData);
+      console.log("added fetch book data event listener");
+    }
 
     async function fetchBookData() {
       console.log("we are in the fetch book data button");
+      console.log("this is the form data", formData);
       showHamsterAndDimBackground();
 
       let response = await fetch("/detectLabels", {
