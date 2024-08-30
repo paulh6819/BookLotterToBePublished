@@ -463,6 +463,10 @@ font-family: Verdana, Geneva, Tahoma, sans-serif;
   animation: fadeIn 1s ease-in-out; /* Apply fade-in to the whole text */
 }
 
+#loading-text2{
+  margin-top: 10px;
+}
+
 
 
 
@@ -598,7 +602,9 @@ details[open] > summary {
   justify-content: center;
   margin-left: auto;
   margin-right: auto;
-  font-size: 25px;
+  font-size: 14px;
+  border-radius: 4px;
+  box-shadow: 5px 5px 0px rgb(224, 125, 251);
 }
 
 
