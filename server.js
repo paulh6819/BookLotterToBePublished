@@ -137,8 +137,10 @@ async function getBooksFromChatGPT(ocrText) {
 }
 
 //This is my main function right now.
-
+let apiCounter = 0;
 app.post("/detectLabels", upload.array("images[]"), async (req, res) => {
+  apiCounter++;
+  console.log("this is the api counter", apiCounter);
   let finalArryOfSetISBNS = "";
   console.log("Received files:", req.files); // Debugging line to check what files are received
   console.log("Received body:", req.body); // Debugging line to check the request body
