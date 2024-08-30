@@ -465,6 +465,11 @@ font-family: Verdana, Geneva, Tahoma, sans-serif;
 
 #loading-text2{
   margin-top: 10px;
+  color: white;
+}
+
+#drag-and-drop-text {
+ width: 80%;
 }
 
 
@@ -604,7 +609,10 @@ details[open] > summary {
   margin-right: auto;
   font-size: 14px;
   border-radius: 4px;
-  box-shadow: 5px 5px 0px rgb(224, 125, 251);
+  box-shadow: 5px 5px 0px rgb(226 230 255);
+  border: 1px solid black;
+  display: none;
+
 }
 
 
@@ -1086,4 +1094,44 @@ opacity: 0.85;
 .fade-out {
   opacity: 0;
   transform: scale(0.95); /* Slightly shrink for visual effect */
+}
+
+.top-part {
+  position: relative;
+  background-color: #f6d4ff;
+  color: #743434;
+  padding: 18px;
+  margin-top: 5px;
+  border-radius: 4px;
+}
+
+.copy-button {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.content-part {
+  padding: 20px;
+  background-color: white;
+}
+
+.copy-button svg {
+  fill: white;
+}
+
+#loading-text2{
+  margin-top: 10px;
+  width: 500%;
+  position: relative;
+  left: -150px;
+}
+.wheel-and-hamster{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 40px;
 }
