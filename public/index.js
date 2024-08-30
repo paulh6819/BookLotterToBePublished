@@ -12,6 +12,17 @@ let formData = new FormData();
 
 async function handleDrop(event) {
   event.preventDefault();
+  // Scrolls down 100px immediately when this code runs
+  window.scrollBy({
+    top: 300, // Vertical scroll amount in pixels
+    left: 0, // Horizontal scroll amount (not needed here)
+    behavior: "smooth", // Optional: defines the transition animation
+  });
+  window.scrollBy({
+    top: 300, // Vertical scroll amount in pixels
+    left: 0, // Horizontal scroll amount (not needed here)
+    behavior: "smooth", // Optional: defines the transition animation
+  });
 
   const file = event.dataTransfer.files;
 
@@ -68,32 +79,37 @@ async function handleDrop(event) {
 
     document.getElementById("upload-button-id").style.display = "none";
 
-    document
-      .getElementById("div-for-button-to-fetch-bookdata")
-      .addEventListener("click", async () => {
-        showHamsterAndDimBackground();
+    const fetchBookDataButton = document.getElementById(
+      "div-for-button-to-fetch-bookdata"
+    );
+    fetchBookDataButton.removeEventListener("click", fetchBookData);
+    fetchBookDataButton.addEventListener("click", fetchBookData);
 
-        console.log("we are in the fetch book data button");
-        let response = await fetch("/detectLabels", {
-          method: "POST",
-          body: formData,
-        });
-        console.log("response data form backend: ", response);
-        if (response.ok) {
-          try {
-            const {
-              result,
-              // bookUrls,
-              // mappedImageAndSummary,
-              // pricePlaceHolder,
-              // arrayOfISBNs,
-            } = await response.json();
-            console.log("This is my main object", result);
+    async function fetchBookData() {
+      console.log("we are in the fetch book data button");
+      showHamsterAndDimBackground();
 
-            const resultContainer = document.getElementById("result-container");
+      let response = await fetch("/detectLabels", {
+        method: "POST",
+        body: formData,
+      });
+      console.log("response data form backend: ", response);
+      if (response.ok) {
+        try {
+          const {
+            result,
+            // bookUrls,
+            // mappedImageAndSummary,
+            // pricePlaceHolder,
+            // arrayOfISBNs,
+          } = await response.json();
+          console.log("This is my main object", result);
 
-            if (result) {
-              resultContainer.innerHTML = ` <div class="top-part">
+          const resultContainer = document.getElementById("result-container");
+
+          if (result) {
+            resultContainer.style.display = "block";
+            resultContainer.innerHTML = ` <div class="top-part">
               <button class="copy-button" onclick="copyText()">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-clipboard" viewBox="0 0 16 16">
                       <path d="M10.5 1a.5.5 0 0 1 .5.5V2h1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h1v-.5a.5.5 0 0 1 .5-.5h5zm0 1h-5a.5.5 0 0 0-.5.5V3h6v-.5a.5.5 0 0 0-.5-.5zM5 4V2H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1V4H5z"/>
@@ -104,207 +120,209 @@ async function handleDrop(event) {
              ${result}
           </div>`;
 
-              result;
-            } else {
-              resultContainer.innerHTML = "No results found";
-              console.log("No results found");
-            }
-          } catch (error) {
-            console.error("Error processing OCR data", error);
+            result;
+          } else {
+            resultContainer.innerHTML = "No results found";
+            console.log("No results found");
           }
-          hideHamsterAndRemoveDim();
-          function removeImages() {
-            document.getElementById("display-dropped-photos").innerHTML = "";
-          }
-          removeImages();
-          imagesToBeDisplayedInTheUi = "";
-          formData = new FormData();
-
-          // console.log("trying to get URLS here", bookUrls);
-          // console.log("here are the mapped images", mappedImageAndSummary);
-          // console.log(
-          //   "here are the summarya",
-          //   mappedImageAndSummary?.[0]?.summary ??
-          //     "No summary availibe unfortunately"
-          // );
-          // console.log("this is the place holder", pricePlaceHolder);
-          // console.log("these are the ISBNS", arrayOfISBNs);
-          //console.log("this is ISBN", mappedImageAndSummary[0].ISBN[0].type);
-          // isbnData = arrayOfISBNs;
-          // console.log(isbnData);
-          showCSVButtonAfterPhotoIsDroppedAndThereIsData();
-          // mappedImageAndSummary.forEach((result) => {
-          //   const bookItem = document.createElement("div");
-          //   bookItem.className = "book-item"; // This class will be used for Flexbox styling
-
-          //   const bookContainer = document.createElement("div");
-          //   bookContainer.className = "book-container";
-          //   // bookContainer.style.border = "1px solid black";
-          //   bookContainer.className = "book-container";
-
-          //   // This creates the title for the book in the UI
-          //   const bookTitle = document.createElement("h2");
-          //   bookTitle.innerHTML = result.title;
-          //   bookTitle.style.textAlign = "left";
-          //   bookTitle.style.backgroundColor = "red";
-          //   const details = document.createElement("details");
-          //   const summary = document.createElement("summary");
-          //   summary.textContent = result.title;
-          //   details.appendChild(summary);
-
-          //   let authorsElement = document.createElement("p");
-          //   authorsElement.innerHTML = `<span class="label"> Author: </span> ${
-          //     result?.author?.[0] ?? ""
-          //   }`;
-          //   authorsElement.style.textAlign = "left";
-          //   authorsElement.style.margin = "0px";
-          //   authorsElement.style.marginBottom = "7px";
-
-          //   let publisherElemnt = document.createElement("p");
-          //   publisherElemnt.style.textAlign = "left";
-          //   publisherElemnt.style.margin = "0px";
-          //   publisherElemnt.style.marginBottom = "7px";
-          //   publisherElemnt.innerHTML = `<span class="label">Publisher:</span> ${
-          //     result?.publisher ?? ""
-          //   }`;
-
-          //   let ISBNElemnet = document.createElement("p");
-          //   ISBNElemnet.innerHTML = `<span class="label">ISBN number:</span> ${
-          //     result.ISBN?.[0]?.identifier ?? ""
-          //   }`;
-          //   ISBNElemnet.style.textAlign = "left";
-          //   ISBNElemnet.style.margin = "0px";
-
-          //   const summaryElememnt = document.createElement("p");
-          //   const imgElement = document.createElement("img"); // Create an actual img element
-          //   imgElement.src = result.imageUrl; // Set the source of the image element
-          //   summaryElememnt.style.margin = "0px";
-          //   summaryElememnt.style.marginLeft = "0px";
-          //   summaryElememnt.style.marginTop = "28px";
-          //   summaryElememnt.style.textAlign = "left";
-          //   summaryElememnt.style.marginRight = "25px";
-          //   summaryElememnt.style.marginBottom = "22px";
-
-          //   summaryElememnt.style.textAlign = "left";
-
-          //   imgElement.alt = ` `;
-          //   imgElement.classList.add("book-container-img");
-          //   // imgElement.style.width = "100px";
-          //   // imgElement.style.height = "auto";
-
-          //   summaryElememnt.innerHTML = result.summary;
-          //   // const test = toHTML(
-          //   //   `<div>
-          //   //      <dl>
-          //   //         <dt class= "title"> Title </dt>  <dd> ${result.title} </dd>
-
-          //   //           <dt> ISBN </dt>
-          //   //           <dd> ${result.ISBN[0].identifier} </dd>
-          //   //     </dl>
-          //   //        <p>
-          //   //           <a href="https://developer.mozilla.org/en-US/docs/Web/API/range/createContextualFragment">
-          //   //               Hello <strong>World!</strong>
-          //   //           </a>
-          //   //        </p>
-
-          //   //   </div>`
-          //   // );
-          //   if (result.rating) {
-          //     let ratingElement = document.createElement("p");
-          //     ratingElement.innerHTML = `<span class="label">Rating:</span> ${result.rating}`;
-          //     details.appendChild(ratingElement);
-          //     ratingElement.style.textAlign = "left";
-          //     ratingElement.style.margin = "0px";
-          //     ratingElement.style.marginBottom = "7px";
-          //   }
-          //   details.appendChild(authorsElement);
-
-          //   details.appendChild(publisherElemnt);
-          //   details.appendChild(ISBNElemnet);
-          //   details.appendChild(summaryElememnt);
-
-          //   bookContainer.appendChild(imgElement);
-          //   // bookContainer.appendChild(bookTitle);
-          //   // bookContainer.appendChild(summaryElememnt);
-          //   // bookContainer.appendChild(authorsElement);
-          //   // bookContainer.appendChild(publisherElemnt);
-          //   // bookContainer.appendChild(ISBNElemnet);
-
-          //   bookContainer.appendChild(details);
-          //   // bookContainer.appendChild(test);
-
-          //   details.addEventListener("toggle", (event) => {
-          //     if (event.newState === "open") {
-          //       imgElement.classList.add("details-open");
-          //     } else {
-          //       imgElement.classList.remove("details-open");
-          //     }
-          //   });
-          //   //this creates the x out button in the UI
-          //   const closeButton = document.createElement("span");
-          //   closeButton.innerHTML = "&times;";
-          //   closeButton.classList.add("close-btn");
-          //   closeButton.style.position = "relative";
-          //   closeButton.style.top = "10px";
-          //   closeButton.style.right = "30px";
-          //   closeButton.style.cursor = "pointer";
-          //   closeButton.style.fontSize = "20px";
-          //   closeButton.style.fontWeight = "bold";
-
-          //   closeButton.style.borderRadius = "4px";
-
-          //   // Append close button to the bookContainer
-          //   bookItem.appendChild(bookContainer);
-          //   bookItem.appendChild(closeButton);
-
-          //   document.getElementById("result-container").appendChild(bookItem);
-
-          //   closeButton.addEventListener("click", function () {
-          //     // Apply fade-out effect before removal
-          //     bookItem.style.opacity = "0";
-          //     bookItem.addEventListener("transitionend", () => bookItem.remove(), {
-          //       once: true,
-          //     });
-          //   });
-
-          //   // Use the setup function to associate the closeButton with the bookContainer
-          // });
-
-          //below is the code for showing all the book covers
-
-          // bookUrls.forEach((url) => {
-          //   const imgElemnt = document.createElement("img");
-          //   imgElemnt.src = url;
-          //   imgElemnt.alt = "Book Cover";
-          //   imgElemnt.style.width = "100px";
-          //   imgElemnt.style.height = "auto";
-
-          //   resultsContainer.appendChild(imgElemnt);
-          // });
-
-          // result.forEach((bookrunItem) => {
-          //   const dataLine = document.createElement("div");
-          //   const prices =
-          //     typeof bookrunItem[2] === "string"
-          //       ? "Book has no value"
-          //       : `Value is ${bookrunItem[2].Good}`;
-          //   dataLine.innerText = `Name: ${bookrunItem[0]}, ISBN: ${bookrunItem[1]}, ${prices}`;
-          //   resultsContainer.appendChild(dataLine);
-          // });
-
-          // isbToPriceMapDisplay(isbToPriceMap ?? {});
-        } else {
-          console.log("failed to process image of OCR");
-          alert(
-            "Failed to process the OCR image. The page will refresh for another attempt."
-          );
-          // Refresh the page to allow the user to try again
-          window.location.reload();
+        } catch (error) {
+          console.error("Error processing OCR data", error);
         }
-      });
+
+        hideHamsterAndRemoveDim();
+        function removeImages() {
+          document.getElementById("display-dropped-photos").innerHTML = "";
+        }
+        removeImages();
+        imagesToBeDisplayedInTheUi = "";
+        formData = new FormData();
+
+        // console.log("trying to get URLS here", bookUrls);
+        // console.log("here are the mapped images", mappedImageAndSummary);
+        // console.log(
+        //   "here are the summarya",
+        //   mappedImageAndSummary?.[0]?.summary ??
+        //     "No summary availibe unfortunately"
+        // );
+        // console.log("this is the place holder", pricePlaceHolder);
+        // console.log("these are the ISBNS", arrayOfISBNs);
+        //console.log("this is ISBN", mappedImageAndSummary[0].ISBN[0].type);
+        // isbnData = arrayOfISBNs;
+        // console.log(isbnData);
+        showCSVButtonAfterPhotoIsDroppedAndThereIsData();
+        // mappedImageAndSummary.forEach((result) => {
+        //   const bookItem = document.createElement("div");
+        //   bookItem.className = "book-item"; // This class will be used for Flexbox styling
+
+        //   const bookContainer = document.createElement("div");
+        //   bookContainer.className = "book-container";
+        //   // bookContainer.style.border = "1px solid black";
+        //   bookContainer.className = "book-container";
+
+        //   // This creates the title for the book in the UI
+        //   const bookTitle = document.createElement("h2");
+        //   bookTitle.innerHTML = result.title;
+        //   bookTitle.style.textAlign = "left";
+        //   bookTitle.style.backgroundColor = "red";
+        //   const details = document.createElement("details");
+        //   const summary = document.createElement("summary");
+        //   summary.textContent = result.title;
+        //   details.appendChild(summary);
+
+        //   let authorsElement = document.createElement("p");
+        //   authorsElement.innerHTML = `<span class="label"> Author: </span> ${
+        //     result?.author?.[0] ?? ""
+        //   }`;
+        //   authorsElement.style.textAlign = "left";
+        //   authorsElement.style.margin = "0px";
+        //   authorsElement.style.marginBottom = "7px";
+
+        //   let publisherElemnt = document.createElement("p");
+        //   publisherElemnt.style.textAlign = "left";
+        //   publisherElemnt.style.margin = "0px";
+        //   publisherElemnt.style.marginBottom = "7px";
+        //   publisherElemnt.innerHTML = `<span class="label">Publisher:</span> ${
+        //     result?.publisher ?? ""
+        //   }`;
+
+        //   let ISBNElemnet = document.createElement("p");
+        //   ISBNElemnet.innerHTML = `<span class="label">ISBN number:</span> ${
+        //     result.ISBN?.[0]?.identifier ?? ""
+        //   }`;
+        //   ISBNElemnet.style.textAlign = "left";
+        //   ISBNElemnet.style.margin = "0px";
+
+        //   const summaryElememnt = document.createElement("p");
+        //   const imgElement = document.createElement("img"); // Create an actual img element
+        //   imgElement.src = result.imageUrl; // Set the source of the image element
+        //   summaryElememnt.style.margin = "0px";
+        //   summaryElememnt.style.marginLeft = "0px";
+        //   summaryElememnt.style.marginTop = "28px";
+        //   summaryElememnt.style.textAlign = "left";
+        //   summaryElememnt.style.marginRight = "25px";
+        //   summaryElememnt.style.marginBottom = "22px";
+
+        //   summaryElememnt.style.textAlign = "left";
+
+        //   imgElement.alt = ` `;
+        //   imgElement.classList.add("book-container-img");
+        //   // imgElement.style.width = "100px";
+        //   // imgElement.style.height = "auto";
+
+        //   summaryElememnt.innerHTML = result.summary;
+        //   // const test = toHTML(
+        //   //   `<div>
+        //   //      <dl>
+        //   //         <dt class= "title"> Title </dt>  <dd> ${result.title} </dd>
+
+        //   //           <dt> ISBN </dt>
+        //   //           <dd> ${result.ISBN[0].identifier} </dd>
+        //   //     </dl>
+        //   //        <p>
+        //   //           <a href="https://developer.mozilla.org/en-US/docs/Web/API/range/createContextualFragment">
+        //   //               Hello <strong>World!</strong>
+        //   //           </a>
+        //   //        </p>
+
+        //   //   </div>`
+        //   // );
+        //   if (result.rating) {
+        //     let ratingElement = document.createElement("p");
+        //     ratingElement.innerHTML = `<span class="label">Rating:</span> ${result.rating}`;
+        //     details.appendChild(ratingElement);
+        //     ratingElement.style.textAlign = "left";
+        //     ratingElement.style.margin = "0px";
+        //     ratingElement.style.marginBottom = "7px";
+        //   }
+        //   details.appendChild(authorsElement);
+
+        //   details.appendChild(publisherElemnt);
+        //   details.appendChild(ISBNElemnet);
+        //   details.appendChild(summaryElememnt);
+
+        //   bookContainer.appendChild(imgElement);
+        //   // bookContainer.appendChild(bookTitle);
+        //   // bookContainer.appendChild(summaryElememnt);
+        //   // bookContainer.appendChild(authorsElement);
+        //   // bookContainer.appendChild(publisherElemnt);
+        //   // bookContainer.appendChild(ISBNElemnet);
+
+        //   bookContainer.appendChild(details);
+        //   // bookContainer.appendChild(test);
+
+        //   details.addEventListener("toggle", (event) => {
+        //     if (event.newState === "open") {
+        //       imgElement.classList.add("details-open");
+        //     } else {
+        //       imgElement.classList.remove("details-open");
+        //     }
+        //   });
+        //   //this creates the x out button in the UI
+        //   const closeButton = document.createElement("span");
+        //   closeButton.innerHTML = "&times;";
+        //   closeButton.classList.add("close-btn");
+        //   closeButton.style.position = "relative";
+        //   closeButton.style.top = "10px";
+        //   closeButton.style.right = "30px";
+        //   closeButton.style.cursor = "pointer";
+        //   closeButton.style.fontSize = "20px";
+        //   closeButton.style.fontWeight = "bold";
+
+        //   closeButton.style.borderRadius = "4px";
+
+        //   // Append close button to the bookContainer
+        //   bookItem.appendChild(bookContainer);
+        //   bookItem.appendChild(closeButton);
+
+        //   document.getElementById("result-container").appendChild(bookItem);
+
+        //   closeButton.addEventListener("click", function () {
+        //     // Apply fade-out effect before removal
+        //     bookItem.style.opacity = "0";
+        //     bookItem.addEventListener("transitionend", () => bookItem.remove(), {
+        //       once: true,
+        //     });
+        //   });
+
+        //   // Use the setup function to associate the closeButton with the bookContainer
+        // });
+
+        //below is the code for showing all the book covers
+
+        // bookUrls.forEach((url) => {
+        //   const imgElemnt = document.createElement("img");
+        //   imgElemnt.src = url;
+        //   imgElemnt.alt = "Book Cover";
+        //   imgElemnt.style.width = "100px";
+        //   imgElemnt.style.height = "auto";
+
+        //   resultsContainer.appendChild(imgElemnt);
+        // });
+
+        // result.forEach((bookrunItem) => {
+        //   const dataLine = document.createElement("div");
+        //   const prices =
+        //     typeof bookrunItem[2] === "string"
+        //       ? "Book has no value"
+        //       : `Value is ${bookrunItem[2].Good}`;
+        //   dataLine.innerText = `Name: ${bookrunItem[0]}, ISBN: ${bookrunItem[1]}, ${prices}`;
+        //   resultsContainer.appendChild(dataLine);
+        // });
+
+        // isbToPriceMapDisplay(isbToPriceMap ?? {});
+      } else {
+        console.log("failed to process image of OCR");
+        alert(
+          "Failed to process the OCR image. The page will refresh for another attempt."
+        );
+        // Refresh the page to allow the user to try again
+        window.location.reload();
+      }
+    }
   } else {
     alert("Invalid file type. Please drop an image file.");
   }
+
   function csvFormatter(data) {
     if (!Array.isArray(data)) {
       console.error("this cvs parser is throwing errors dawg", data);
