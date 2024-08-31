@@ -363,11 +363,7 @@ app.post("/detectLabels", upload.array("images[]"), async (req, res) => {
       "Error processing line at the end of the app:",
       error.message
     );
-    //  if (error.response && error.response.data) {
-    //   console.error("OpenAI API error:", error.response.data);
-    //   }
-    // It's not recommended to just throw an error without handling it.
-    // Instead, send a response to the client with an error status.
+
     res.status(500).send("Error processing the image.");
   }
 });
@@ -421,30 +417,7 @@ app
 //   };
 
 // const data = {
-//   prompt: `Parse the following OCR data into book titles: ${text}`,
-//   max_tokens: 200, // You can adjust this based on your needs
-// };
-//st response = await axios.post(CHAT_API_ENDPOINT, data, {
-//     headers: headers,
-//   });
-//   return response.data.choices[0].text.trim();
 
-// for (const line of linesLessThanFour) {
-//   isbToPriceMap[line] = {};
-
-//   let potentialISBNs = [];
-//   let booksrunDataList = [];
-
-//   console.log(`processing line ----->${line}`);
-//   const parsedTitle = await parseBookTitlesWithChatGPT(line);
-
-//   // Store the parsed title
-//   parsedBookTitles.push(parsedTitle);
-
-//here is the uility funciton that is sending information to googles books API
-
-// try {
-//   const googleBooksResponse = await axios.get(
 //     `${baseURL}/books/v1/volumes?q=intitle:"${encodeURIComponent(
 //       line
 //     )}"&key=${apiKEY}`
@@ -575,7 +548,7 @@ function extractLinesWithNumbers(ocrText) {
 async function getBooksCountFromChatGPT(img) {
   // Assuming the first item is a buffer or a string
   const base64Image = Buffer.from(img).toString("base64");
-  console.log("here is base64", base64Image);
+
   // You can now send this base64Encoded string to your API
 
   const response = await openai.chat.completions.create({
