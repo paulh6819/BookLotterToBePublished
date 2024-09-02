@@ -174,33 +174,6 @@ async function handleDrop(event) {
         //   // imgElement.style.width = "100px";
         //   // imgElement.style.height = "auto";
 
-        //   summaryElememnt.innerHTML = result.summary;
-        //   // const test = toHTML(
-        //   //   `<div>
-        //   //      <dl>
-        //   //         <dt class= "title"> Title </dt>  <dd> ${result.title} </dd>
-
-        //   //           <dt> ISBN </dt>
-        //   //           <dd> ${result.ISBN[0].identifier} </dd>
-        //   //     </dl>
-        //   //        <p>
-        //   //           <a href="https://developer.mozilla.org/en-US/docs/Web/API/range/createContextualFragment">
-        //   //               Hello <strong>World!</strong>
-        //   //           </a>
-        //   //        </p>
-
-        //   //   </div>`
-        //   // );
-        //   if (result.rating) {
-        //     let ratingElement = document.createElement("p");
-        //     ratingElement.innerHTML = `<span class="label">Rating:</span> ${result.rating}`;
-        //     details.appendChild(ratingElement);
-        //     ratingElement.style.textAlign = "left";
-        //     ratingElement.style.margin = "0px";
-        //     ratingElement.style.marginBottom = "7px";
-        //   }
-        //   details.appendChild(authorsElement);
-
         //   details.appendChild(publisherElemnt);
         //   details.appendChild(ISBNElemnet);
         //   details.appendChild(summaryElememnt);
