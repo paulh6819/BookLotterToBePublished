@@ -156,47 +156,6 @@ async function handleDrop(event) {
         // isbnData = arrayOfISBNs;
         // console.log(isbnData);
         showCSVButtonAfterPhotoIsDroppedAndThereIsData();
-        // mappedImageAndSummary.forEach((result) => {
-        //   const bookItem = document.createElement("div");
-        //   bookItem.className = "book-item"; // This class will be used for Flexbox styling
-
-        //   const bookContainer = document.createElement("div");
-        //   bookContainer.className = "book-container";
-        //   // bookContainer.style.border = "1px solid black";
-        //   bookContainer.className = "book-container";
-
-        //   // This creates the title for the book in the UI
-        //   const bookTitle = document.createElement("h2");
-        //   bookTitle.innerHTML = result.title;
-        //   bookTitle.style.textAlign = "left";
-        //   bookTitle.style.backgroundColor = "red";
-        //   const details = document.createElement("details");
-        //   const summary = document.createElement("summary");
-        //   summary.textContent = result.title;
-        //   details.appendChild(summary);
-
-        //   let authorsElement = document.createElement("p");
-        //   authorsElement.innerHTML = `<span class="label"> Author: </span> ${
-        //     result?.author?.[0] ?? ""
-        //   }`;
-        //   authorsElement.style.textAlign = "left";
-        //   authorsElement.style.margin = "0px";
-        //   authorsElement.style.marginBottom = "7px";
-
-        //   let publisherElemnt = document.createElement("p");
-        //   publisherElemnt.style.textAlign = "left";
-        //   publisherElemnt.style.margin = "0px";
-        //   publisherElemnt.style.marginBottom = "7px";
-        //   publisherElemnt.innerHTML = `<span class="label">Publisher:</span> ${
-        //     result?.publisher ?? ""
-        //   }`;
-
-        //   let ISBNElemnet = document.createElement("p");
-        //   ISBNElemnet.innerHTML = `<span class="label">ISBN number:</span> ${
-        //     result.ISBN?.[0]?.identifier ?? ""
-        //   }`;
-        //   ISBNElemnet.style.textAlign = "left";
-        //   ISBNElemnet.style.margin = "0px";
 
         //   const summaryElememnt = document.createElement("p");
         //   const imgElement = document.createElement("img"); // Create an actual img element
