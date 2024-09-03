@@ -171,28 +171,7 @@ async function handleDrop(event) {
 
         //   imgElement.alt = ` `;
         //   imgElement.classList.add("book-container-img");
-        //   // imgElement.style.width = "100px";
-        //   // imgElement.style.height = "auto";
 
-        //
-        //   bookContainer.appendChild(details);
-        //   // bookContainer.appendChild(test);
-
-        //   details.addEventListener("toggle", (event) => {
-        //     if (event.newState === "open") {
-        //       imgElement.classList.add("details-open");
-        //     } else {
-        //       imgElement.classList.remove("details-open");
-        //     }
-        //   });
-        //   //this creates the x out button in the UI
-        //   const closeButton = document.createElement("span");
-        //   closeButton.innerHTML = "&times;";
-        //   closeButton.classList.add("close-btn");
-        //   closeButton.style.position = "relative";
-        //   closeButton.style.top = "10px";
-        //   closeButton.style.right = "30px";
-        //   closeButton.style.cursor = "pointer";
         //   closeButton.style.fontSize = "20px";
         //   closeButton.style.fontWeight = "bold";
 
