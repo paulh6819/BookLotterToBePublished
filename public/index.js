@@ -174,17 +174,7 @@ async function handleDrop(event) {
         //   // imgElement.style.width = "100px";
         //   // imgElement.style.height = "auto";
 
-        //   details.appendChild(publisherElemnt);
-        //   details.appendChild(ISBNElemnet);
-        //   details.appendChild(summaryElememnt);
-
-        //   bookContainer.appendChild(imgElement);
-        //   // bookContainer.appendChild(bookTitle);
-        //   // bookContainer.appendChild(summaryElememnt);
-        //   // bookContainer.appendChild(authorsElement);
-        //   // bookContainer.appendChild(publisherElemnt);
-        //   // bookContainer.appendChild(ISBNElemnet);
-
+        //
         //   bookContainer.appendChild(details);
         //   // bookContainer.appendChild(test);
 
