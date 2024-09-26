@@ -39,11 +39,23 @@
 
       <div class="center-container">
         <h1 class="main-header">
-          Welcome to book lotter! 
+          Welcome to book lister! 
         <h3>
           A cutting edge tool for professional book resalers to create listings
           with a single photo
         </h3>
+        <h4>
+          Are you listing a single book, or multiple books in a lot?
+        </h4>
+        <menu>
+
+        <li id="singleBookToggle" class="unchecked">
+          <a >Single Book &#128214;</a>
+        </li>
+        <li id="toggleButton" class="unchecked">
+          <a >Book Lot &#128218;&#128218;&#128218;  </a>
+        </li>
+      </menu>
         <div
           class="drop-area"
           ondrop="handleDrop(event)"
@@ -78,6 +90,11 @@
       </div>
 
       <input id="file-upload" type="file" multiple onchange="handleFileSelect(event)" />
+      <form id="descriptionForm">
+        <label for="userInput">Is there anything you want included in the description (like free shipping or money back guarantee)?</label>
+        <input type="text" id="userInput" name="userInput" placeholder="Is there anything you want included in the description like free shipping or money back guarantee?" />
+        <button type="submit">Submit</button>
+      </form>
       <div id="display-dropped-photos"></div>
       <button id="div-for-button-to-fetch-bookdata" ><div id="bouncing-submission-letters"><span>C</span><span>l</span><span>i</span><span>c</span><span>k</span>
          <!-- This is for the space -->
