@@ -4,6 +4,7 @@ let image = {
   url: null,
   message: "Let's see what these books are worth",
 };
+
 const resultsContainer = document.getElementById("result-container");
 const fetchBookDataButton = document.getElementById(
   "div-for-button-to-fetch-bookdata"
@@ -13,6 +14,8 @@ let isbnData;
 let imagesToBeDisplayedInTheUi = "";
 let formData = new FormData();
 let count = 0;
+let userInput = "";
+let singleBookToggled = false;
 
 async function handleDrop(event) {
   event.preventDefault();
@@ -78,6 +81,9 @@ async function handleDrop(event) {
 
     // formData.append("image", file)
     console.log("this is the  new new form data", formData);
+    console.log("this is the form data", formData.entries());
+
+    console.log("this is the form data size", formData.size);
 
     document.getElementById("div-for-button-to-fetch-bookdata").style.display =
       "block";
@@ -91,11 +97,34 @@ async function handleDrop(event) {
     }
 
     async function fetchBookData() {
+      if (userInput) {
+        formData.append("userInput", userInput);
+      }
+
+      for (var pair of formData.entries()) {
+        if (pair[1] instanceof File) {
+          // Log details of the file
+          console.log(
+            "File details - Name:",
+            pair[1].name,
+            "Size:",
+            pair[1].size,
+            "Type:",
+            pair[1].type
+          );
+        } else {
+          // Log other form data entries
+          console.log("Form data entry:", pair[0] + ": " + pair[1]);
+        }
+      }
       console.log("we are in the fetch book data button");
-      console.log("this is the form data", formData);
+
       showHamsterAndDimBackground();
 
-      let response = await fetch("/detectLabels", {
+      let endPoint = singleBookToggled ? "/detectSingleBook" : "/detectLabels";
+      console.log("endPoint", endPoint);
+
+      let response = await fetch(endPoint, {
         method: "POST",
         body: formData,
       });
@@ -228,88 +257,6 @@ async function handleDrop(event) {
     }
   } else {
     alert("Invalid file type. Please drop an image file.");
-  }
-
-  function csvFormatter(data) {
-    if (!Array.isArray(data)) {
-      console.error("this cvs parser is throwing errors dawg", data);
-      return "";
-    }
-
-    let csvContent = "data:text/csv;charset=utf-8,";
-    csvContent += "isbn\n";
-    // console.log("isbn infor the foreach", isbnData);
-    data.forEach((row) => {
-      csvContent += row + "\n";
-    });
-    return csvContent;
-  }
-
-  function downloadCsvContent(content, filename = "isbn.csv") {
-    const encodedUri = encodeURI(content);
-    const link = document.createElement("a");
-    link.setAttribute("href", encodedUri);
-    link.setAttribute("download", filename);
-    link.setAttribute("class", "downloadLink");
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  }
-
-  let csvContentVariable = csvFormatter(isbnData);
-
-  document
-    .getElementById("downloadButton")
-    .addEventListener("click", function () {
-      downloadCsvContent(csvContentVariable);
-    });
-
-  function parseCSV(csvData) {
-    let lines = csvData.split("\n");
-    let headers = lines[0].split(",");
-    let result = lines.slice(1).map((line) => {
-      let obj = {};
-      let currentline = line.split(",");
-      headers.forEach((header, i) => {
-        obj[header] = currentline[i];
-      });
-      return obj;
-    });
-    return result;
-  }
-
-  function displayFileData(csvData) {
-    let parsedData = parseCSV(csvData);
-    let container = document.createElement("div");
-    let table = document.createElement("table");
-    let tableHead = document.createElement("thead");
-    let headerRow = document.createElement("tr");
-
-    // Create the header row
-    Object.keys(parsedData[0]).forEach((header) => {
-      let headerCell = document.createElement("th");
-      headerCell.textContent = header;
-      headerCell.style.fontWeight = "bold"; // Make header text bold
-      headerCell.style.borderBottom = "1px solid black"; // Add a line under the header
-      headerRow.appendChild(headerCell);
-    });
-    tableHead.appendChild(headerRow);
-    table.appendChild(tableHead);
-
-    // Create the body of the table
-    let tableBody = document.createElement("tbody");
-    parsedData.forEach((row) => {
-      let tableRow = document.createElement("tr");
-      Object.values(row).forEach((text) => {
-        let tableCell = document.createElement("td");
-        tableCell.textContent = text;
-        tableRow.appendChild(tableCell);
-      });
-      tableBody.appendChild(tableRow);
-    });
-    table.appendChild(tableBody);
-    container.appendChild(table);
-    document.body.appendChild(container); // Append to the body or a specific element
   }
 
   // function fetchFileData() {
@@ -606,71 +553,43 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Any other code that needs to run after the DOM is fully loaded
 });
+document
+  .getElementById("descriptionForm")
+  .addEventListener("submit", function (event) {
+    event.preventDefault(); // Prevents the form from reloading the page
 
-//tranisition for the book container animarion
+    userInput = document.getElementById("userInput").value;
 
-// const books = document.querySelectorAll(".book-container");
+    // Here you can send userInput to ChatGPT's API as part of the request payload
+    console.log(`User wants to include: ${userInput}`);
+  });
 
-// books.forEach((book, i) => {
-//   setTimeout(() => {
-//     book.style.opacity = 1;
-//   }, 200 * i);
-// });
+document.addEventListener("DOMContentLoaded", function () {
+  const toggleButton = document.getElementById("toggleButton");
 
-// document.addEventListener("DOMContentLoaded", function () {
-//   const dropArea = document.querySelector(".drop-area"); // Target the drop-area class
-//   const topLeftArrow = document.getElementById("top-left");
-//   const topRightArrow = document.getElementById("top-right");
-//   const bottomLeftArrow = document.getElementById("bottom-left");
-//   const bottomRightArrow = document.getElementById("bottom-right");
-
-//   // Animation for hovering over the drop area
-//   dropArea.addEventListener("mouseenter", () => {
-//     anime({
-//       targets: topLeftArrow,
-//       translateX: 6,
-//       translateY: 6,
-//       duration: 300,
-//       easing: "easeInOutQuad",
-//     });
-//     anime({
-//       targets: topRightArrow,
-//       translateX: -6,
-//       translateY: 6,
-//       duration: 300,
-//       easing: "easeInOutQuad",
-//     });
-//     anime({
-//       targets: bottomLeftArrow,
-//       translateX: 6,
-//       translateY: -6,
-//       duration: 300,
-//       easing: "easeInOutQuad",
-//     });
-//     anime({
-//       targets: bottomRightArrow,
-//       translateX: -6,
-//       translateY: -6,
-//       duration: 300,
-//       easing: "easeInOutQuad",
-//     });
-//   });
-
-//   // Reset animation when not hovering
-//   dropArea.addEventListener("mouseleave", () => {
-//     anime({
-//       targets: [topLeftArrow, bottomLeftArrow],
-//       translateX: 0,
-//       translateY: 0,
-//       duration: 500,
-//       easing: "easeInOutQuad",
-//     });
-//     anime({
-//       targets: [topRightArrow, bottomRightArrow],
-//       translateX: 0,
-//       translateY: 0,
-//       duration: 500,
-//       easing: "easeInOutQuad",
-//     });
-//   });
-// });
+  toggleButton.addEventListener("click", function () {
+    if (toggleButton.classList.contains("unchecked")) {
+      toggleButton.classList.remove("unchecked");
+      toggleButton.classList.add("checked");
+      console.log("Button is checked");
+    } else {
+      toggleButton.classList.remove("checked");
+      toggleButton.classList.add("unchecked");
+      console.log("Button is unchecked");
+    }
+  });
+  const singleBookButtonToggle = document.getElementById("singleBookToggle");
+  singleBookButtonToggle.addEventListener("click", function () {
+    if (singleBookButtonToggle.classList.contains("unchecked")) {
+      singleBookButtonToggle.classList.remove("unchecked");
+      singleBookButtonToggle.classList.add("checked");
+      console.log("Button is checked");
+      singleBookToggled = true;
+    } else {
+      singleBookButtonToggle.classList.remove("checked");
+      singleBookButtonToggle.classList.add("unchecked");
+      console.log("Button is unchecked");
+      singleBookToggled = false;
+    }
+  });
+});
