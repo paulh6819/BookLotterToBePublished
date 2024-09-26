@@ -30,6 +30,7 @@ import { exec } from "child_process";
 import express from "express";
 import axios from "axios";
 import multer from "multer";
+import detectSingleBookRouter from "./endPoints/singleBookEndPoint.js";
 
 import { ImageAnnotatorClient } from "@google-cloud/vision";
 
@@ -93,10 +94,13 @@ const baseURL = "https://www.googleapis.com";
 const apiKEYGoogleBooks = "AIzaSyC0VxffVwhh-iT2mTauuIoFoIwMgx20hUU";
 
 const app = express();
+app.use(express.json());
 
 app.use(express.static(path.join(__dirname, "public")));
 
 const port = process.env.PORT || 4009;
+
+app.use("/", detectSingleBookRouter);
 
 //fetch(url: URL | RequestInfo, init?: RequestInit): Promise<Response>;
 
@@ -139,14 +143,18 @@ async function getBooksFromChatGPT(ocrText) {
 
 //This is my main function right now.
 let apiCounter = 0;
+let userDescriptionRequirements = "";
+
 app.post("/detectLabels", upload.array("images[]"), async (req, res) => {
   const bookTitleArray = [];
+  userDescriptionRequirements = req.body.userInput;
+  console.log(
+    "this is the user description requirements",
+    userDescriptionRequirements
+  );
 
   apiCounter++;
   console.log("this is the api counter", apiCounter);
-  let finalArryOfSetISBNS = "";
-  // console.log("Received files:", req.files); // Debugging line to check what files are received
-  // console.log("Received body:", req.body); // Debugging line to check the request body
 
   console.log("this is the request file", req.file);
   if (!req.files) {
@@ -367,7 +375,6 @@ app.post("/detectLabels", upload.array("images[]"), async (req, res) => {
     res.status(500).send("Error processing the image.");
   }
 });
-app.use(express.json());
 
 let storedFile; // This variable will hold the most recent file data
 
@@ -387,16 +394,28 @@ app
     console.error("Error starting the server:", err);
   });
 
+let userDescriptionRequirementsAddendum = "";
 async function giveTitlesToChatGPTAndGetBackADescriptionAndOrderedTitles(
   arrOfTitles
 ) {
+  if (!userDescriptionRequirements === "") {
+    userDescriptionRequirementsAddendum =
+      "The user has requested the following things be included in the description: " +
+      userDescriptionRequirements;
+  }
+  console.log(
+    "this is the user description requirements addendum within the chatGpt function",
+    userDescriptionRequirements
+  );
   const stream = await openai.chat.completions.create({
     model: "gpt-4",
     messages: [
       {
         role: "user",
         content: `You are about to be given an arr of titles containing one or more books. I need you to write a marketing descripion of the books for eBay and then list the 
-        the books one perline, numbered in order. MAKE SURE THE DESCRIPTION IS AT THE TOP BEFORE YOU LIST THE BOOKS. And this will be html so have a new line symbol at the end of every book listed. If the books are all by one author, mention that, and talk a little bit about the author. And do not have repeat entries. Here are the books: ${arrOfTitles}`,
+        the books one perline, numbered in order. MAKE SURE THE DESCRIPTION IS AT THE TOP BEFORE YOU LIST THE BOOKS. And this will be html so have a new line symbol at the end of every book listed. If the books are all by one author, mention that, and talk a little bit about 
+        the author. And do not have repeat entries. Here are the books: ${arrOfTitles} "The user has requested the following things be included in the description: " +
+     ${userDescriptionRequirements};`,
       },
     ],
     stream: true,
