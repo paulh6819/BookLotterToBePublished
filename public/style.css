@@ -472,6 +472,13 @@ font-family: Verdana, Geneva, Tahoma, sans-serif;
  width: 80%;
 }
 
+#descriptionForm{
+
+  margin: 30px;
+  /* background-color: black; */
+  padding: 100;
+}
+
 
 
 
