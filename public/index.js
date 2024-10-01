@@ -41,8 +41,6 @@ async function handleDrop(event) {
 
   // elementToHide.style.display = "none";
 
-  const imageArray = [];
-
   for (let i = 0; i < file.length; i++) {
     if (file[i].type.match(/^image\//)) {
       console.log("Dropped file:", file[i]);
@@ -571,6 +569,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (toggleButton.classList.contains("unchecked")) {
       toggleButton.classList.remove("unchecked");
       toggleButton.classList.add("checked");
+      singleBookButtonToggle.classList.remove("checked");
       console.log("Button is checked");
     } else {
       toggleButton.classList.remove("checked");
@@ -583,6 +582,10 @@ document.addEventListener("DOMContentLoaded", function () {
     if (singleBookButtonToggle.classList.contains("unchecked")) {
       singleBookButtonToggle.classList.remove("unchecked");
       singleBookButtonToggle.classList.add("checked");
+      if (toggleButton.classList.contains("checked")) {
+        toggleButton.classList.remove("checked");
+        toggleButton.classList.add("unchecked");
+      }
       console.log("Button is checked");
       singleBookToggled = true;
     } else {
