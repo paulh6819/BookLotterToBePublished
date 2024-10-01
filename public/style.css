@@ -1142,3 +1142,10 @@ opacity: 0.85;
   align-items: center;
   margin-top: 40px;
 }
+
+.checked{
+  background-color: #f6d4ff;
+}
+.uncheked{
+  background-color: white;
+}
