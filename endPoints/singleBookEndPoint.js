@@ -1,5 +1,6 @@
 import express from "express";
 import multer from "multer";
+import OpenAI from "openai";
 
 const router = express.Router();
 const upload = multer();
