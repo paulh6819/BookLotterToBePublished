@@ -23,7 +23,7 @@ async function handleDrop(event) {
   window.scrollBy({
     top: 300, // Vertical scroll amount in pixels
     left: 0, // Horizontal scroll amount (not needed here)
-    behavior: "smooth", // Optional: defines the transition animation
+    behavior: "smooth",
   });
   window.scrollBy({
     top: 300, // Vertical scroll amount in pixels
